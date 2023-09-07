@@ -1,0 +1,66 @@
+{%extends 'base.html'%}
+
+{%block content%}
+
+<section class="container-fluid">
+
+<nav class="navbar">
+
+    <h1>{%  block title %}LISTA DE TAREAS{% endblock %}</h1>
+    <a href="{{url_for('lista.create')}}" class="btn  btn-success">Nuevo</a>
+
+</nav>
+
+
+<table class="table">
+    <thead>
+
+        <tr>
+            <th class="col">Tareas</th>
+            <th class="col">Estado</th>
+            <th class="col" colspan="2">Opciones</th>
+        </tr>
+
+    </thead>
+
+    <tbody>
+        {% for nota in todos | reverse %}
+        {% if g.user.id== nota.created_by%}
+        <tr>
+            <td>
+                <h5>{{ nota.titulo }}</h5>
+                <p>{{ nota.desc }}</p>
+                
+
+            </td>
+
+            <td>
+                {%if nota.estado == false %}
+                    <span class="text-warning">Incompleto</span>
+                {% else %}
+                    <span class="text-success"  >Completado</span>
+
+                {% endif %}    
+                    
+                    
+            </td>
+
+            <td>
+                <a href="{{url_for('lista.update',id=nota.id)}}" class="btn btn-info btn-sm">Editar</a>
+            </td>
+            <td>
+                <a href="{{url_for('lista.delete',id=nota.id)}}" class="btn btn-danger btn-sm">Eliminar</a>
+            </td>
+
+        </tr>
+        {% endif %}
+        {%  endfor %}
+    </tbody>
+
+</table>
+
+</section>
+
+
+
+{% endblock %}
